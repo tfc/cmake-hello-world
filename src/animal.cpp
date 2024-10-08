@@ -1,5 +1,7 @@
 #include <animal.hpp>
 
+#include <iostream>
+
 Animal::Animal(const std::string &n)
     : name_{n}
 {
@@ -30,3 +32,7 @@ std::string Cat::laut() const {
 bool Dog::is_good_boi() const {
     return true;
 }
+
+Animal::~Animal() { std::cout << "DTOR Animal\n"; }
+Dog::~Dog() { std::cout << "DTOR Dog\n"; }
+Cat::~Cat() { std::cout << "DTOR Cat\n"; }

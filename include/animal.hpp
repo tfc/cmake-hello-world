@@ -9,6 +9,8 @@ public:
     const std::string&  name() const;
 
     virtual std::string laut() const = 0;
+
+    virtual ~Animal();
 };
 
 class Dog : public Animal {
@@ -17,10 +19,14 @@ public:
     virtual std::string laut() const override;
 
     bool is_good_boi() const;
+
+    ~Dog();
 };
 
 class Cat : public Animal {
 public:
     Cat(const std::string &name);
     virtual std::string laut() const override;
+
+    ~Cat();
 };

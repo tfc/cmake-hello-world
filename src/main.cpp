@@ -12,15 +12,9 @@ void tier_bespielen(const Animal& a) {
 }
 
 int main() {
-  Dog waldi{"waldi"};
-  Cat felix{"felix"};
+  Animal * t {new Dog{"waldi"}};
 
-  Animal * pw {&waldi};
-  Animal & rw {waldi};
+  tier_bespielen(*t);
 
-  pw->laut();
-  rw.laut();
-
-  tier_bespielen(waldi);
-  tier_bespielen(felix);
+  delete t;
 }
