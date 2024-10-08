@@ -6,5 +6,11 @@ project(HelloWorld
   LANGUAGES CXX
   )
 
-add_executable(hello src/main.cpp)
+add_executable(hello 
+  src/main.cpp
+  src/hello.cpp
+  src/mystruct.cpp
+  )
 target_compile_features(hello PUBLIC cxx_std_20)
+
+target_include_directories(hello PUBLIC include)
