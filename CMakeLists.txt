@@ -10,6 +10,7 @@ add_executable(hello
   src/main.cpp
   src/hello.cpp
   src/mystruct.cpp
+  src/animal.cpp
   )
 target_compile_features(hello PUBLIC cxx_std_20)
 

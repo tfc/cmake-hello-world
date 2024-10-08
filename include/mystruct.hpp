@@ -3,6 +3,10 @@
 
 namespace dwd {
 
+
+
+struct BoeseEingabe { const char * reason; };
+
 class MyStruct
 {
 

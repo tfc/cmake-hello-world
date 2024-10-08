@@ -2,6 +2,8 @@
 
 namespace dwd {
 
+struct dreizehnIstDoof {};
+
 MyStruct::MyStruct(size_t number__)
     : number_{number__}, is_even_{is_even_calculation(number__)}
 {
@@ -34,14 +36,21 @@ std::ostream& operator<<(std::ostream &os, const MyStruct &x) {
 }
 
 bool MyStruct::is_even_calculation(size_t n) {
+    if (n == 13) {
+        throw dreizehnIstDoof{};
+    }
     return n % 2 == 0;
 }
 
 MyStruct MyStruct::create_blessed_instance(size_t n) {
-    if (n == 13) {
-        return MyStruct{10};
+    if (n == 20) {
+        throw BoeseEingabe{"20 moegen wikinger nicht"};
     }
-    return MyStruct{n};
+    try {
+        return MyStruct{n};
+    } catch(const dreizehnIstDoof &) {
+        throw BoeseEingabe{"13 moegen aberglaeubige nicht"};
+    }
 }
 
 }
