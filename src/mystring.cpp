@@ -3,29 +3,62 @@
 #include <cstring>
 #include <iostream>
 
+static char* allocate_and_fill(const char *source, size_t length) {
+  auto content {new char[length+1]};
+  std::memcpy(content, source, length+1);
+  return content;
+}
+
 MyString::MyString(const char *s)
   : MyString(s, std::strlen(s))
   {}
 
 MyString::MyString(const char *s, size_t len)
   : length_{len}
-  , content_{new char[length_+1]}
+  , content_{allocate_and_fill(s, len)}
   {
-    std::memcpy(content_, s, length_+1);
+    std::cout << "CTOR with " << (content_ ? content_ : "empty") << '\n';
   }
 
 MyString::MyString(const MyString &other) 
   : MyString{other.content_, other.length_}
-  {}
+  {
+    std::cout << "COPY CTOR with " << (content_ ? content_ : "empty") << '\n';
+  }
+
+MyString::MyString(MyString &&other) 
+  : length_{other.length_}
+  , content_{other.content_}
+{
+  std::cout << "MOVE CTOR with " << (content_ ? content_ : "empty") << '\n';
+  other.content_ = nullptr;
+}
 
 
 MyString& MyString::operator=(const MyString &other) {
-    MyString{other.content_, other.length_};
+    delete[] content_;
+    content_ = allocate_and_fill(other.content_, other.length_);
+    length_ = other.length_;
+
+    std::cout << "OPERATOR= with " << (content_ ? content_ : "empty") << '\n';
     return *this;
 }
 
+MyString& MyString::operator=(MyString &&other) {
+    std::swap(content_, other.content_);
+    std::swap(length_, other.length_);
+    std::cout << "MOVE OPERATOR= with " << (content_ ? content_ : "empty") << '\n';
+    return *this;
+}
+
+
+
 MyString::~MyString() {
-    std::cout << "Destroying \"" << content_ << "\"\n";
+    if (content_ != nullptr) {
+      std::cout << "Destroying \"" << content_ << "\"\n";
+    } else {
+      std::cout << "Destroying empty string\n";
+    }
     delete[] content_;
 }
 

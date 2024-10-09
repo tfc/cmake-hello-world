@@ -13,7 +13,11 @@ public:
     MyString(const MyString &);
     MyString& operator=(const MyString &);
 
+    MyString(MyString &&);
+    MyString& operator=(MyString &&);
+
     MyString operator+(const MyString &) const;
+    bool operator==(const MyString &) const;
 
     size_t length() const;
     const char * c_str() const;
