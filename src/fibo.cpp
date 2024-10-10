@@ -5,6 +5,11 @@ fibo_range::fibo::fibo(size_t startnum)
     for (size_t i {1}; i < startnum; ++i, ++*this) {}
 }
 
+fibo_range::fibo::fibo(size_t startnum, int)
+    : count{startnum}
+{
+}
+
 
 bool fibo_range::fibo::operator!=(const fibo& other) const {
     return count != other.count;
@@ -28,13 +33,13 @@ fibo_range::fibo& fibo_range::fibo::operator++() {
 
 fibo_range::fibo_range(size_t up_to, size_t start) 
     : it{start}
-    , end_it{up_to}
+    , end_it{up_to, 0}
     {}
 
 fibo_range::fibo fibo_range::begin() const {
     return it;
 }
 
-fibo_range::fibo_end fibo_range::end() const {
+fibo_range::fibo fibo_range::end() const {
     return end_it;
 }

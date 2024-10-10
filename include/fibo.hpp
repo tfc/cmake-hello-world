@@ -12,6 +12,7 @@ struct fibo_range {
 
     public:
         fibo(size_t startnum);
+        fibo(size_t startnum, int);
 
         bool operator!=(const fibo&) const;
         bool operator!=(const fibo_end&) const;
@@ -24,10 +25,15 @@ struct fibo_range {
     };
 
     fibo it;
-    fibo_end end_it;
+    fibo end_it;
 
     fibo_range(size_t up_to, size_t start = 0);
 
     fibo begin() const;
-    fibo_end end() const;
+    fibo end() const;
+};
+
+template<>
+struct std::iterator_traits<fibo_range::fibo> {
+    using iterator_category = std::forward_iterator_tag;
 };
