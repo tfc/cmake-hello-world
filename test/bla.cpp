@@ -43,15 +43,16 @@ TEST(set, set) {
     std::cout << '\n';
 }
 
+template <typename Idx, typename X>
+using map2d = std::map<Idx, std::map<Idx, X>>;
+
+
 TEST(map, map) {
     std::map<size_t, size_t> fibos {
         {1, 1},
         {2, 1},
         {3, 2}
     };
-
-
-
     for (const auto &[key, value] : fibos) {
         std::cout << "fibo(" << key << ") = " << value << '\n';
     }

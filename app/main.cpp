@@ -1,61 +1,44 @@
-#include <animal.hpp>
-
-#include <vector>
-#include <array>
 #include <iostream>
+#include <string>
+#include <vector>
 #include <list>
-#include <set>
-#include <numeric>
-#include <algorithm>
-#include <functional>
-#include <fibo.hpp>
+#include <type_traits>
 
-static size_t fib(size_t i)
-{
-  if (i <= 2)
-  {
-    return 1;
-  }
-  return fib(i - 1) + fib(i - 2);
+template<typename A, typename B> struct is_same { static constexpr bool value {false}; };
+template<typename A> struct is_same<A, A> { static constexpr bool value {true}; };
+
+template<typename T1, typename T2>
+T1 add(T1 a, T2 b) {
+    static_assert(!is_same<double, T2>::value, "doubles sind nicht erlaubt");
+    return a + b;
 }
 
-size_t fib2(size_t nthNumber){
-  size_t previouspreviousNumber, previousNumber = 0, currentNumber = 1;
+template<bool> struct boolAdapter;
+template<> struct boolAdapter<true> { using X = bool; };
 
-  for (int i = 1; i < nthNumber; i++)
-  {
-    previouspreviousNumber = previousNumber;
-    previousNumber = currentNumber;
-    currentNumber = previouspreviousNumber + previousNumber;
-  }
-  return currentNumber;
+template<
+    template<typename> typename C, 
+    typename T2, 
+    typename T,
+    typename DONT_USE = 
+      boolAdapter<
+        std::is_same<std::vector<T>, C<T>>::value 
+        || std::is_same<std::list<T>, C<T>>::value
+      >::X
+>
+C<T> add(const C<T> &v, T2 b) {
+    C<T> ret{v};
+    ret.push_back(b);
+    return ret;
 }
 
-
-std::vector<size_t> fib_values_until(size_t N) {
-  std::vector<size_t> v;
-  v.reserve(N-1);
-  for (size_t i{1}; i < N; ++i) {
-    v.push_back(fib2(i));
-  }
-  return v;
-}
-
-size_t sum(auto it, auto end_it, size_t accum = 0) {
-  for (; it != end_it; ++it) {
-    accum += *it;
-  }
-  return accum;
-}
+using namespace std::string_literals;
 
 int main()
 {
-  for (auto i : fibo_range{10, 5}) {
-    std::cout << i << ", ";
-  }
-  std::cout << '\n';
-
-  const auto r = fibo_range{10, 5};
-  const auto s = sum(r.begin(), r.end(), 0);
-  std::cout << s << '\n';
+    auto x = add("a"s, "b");
+    //auto y = add(1, 1.0);
+    auto z = add(std::vector<int>{1,2,3}, 4);
+    auto w = add(std::list<int>{1,2,3}, 4);
+    //auto bla = add(1, 1.0);
 }
