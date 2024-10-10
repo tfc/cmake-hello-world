@@ -12,6 +12,7 @@ add_executable(hello
   src/mystruct.cpp
   src/animal.cpp
   src/mystring.cpp
+  src/fibo.cpp
   )
 target_compile_features(hello PUBLIC cxx_std_20)
 
