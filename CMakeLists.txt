@@ -6,14 +6,21 @@ project(HelloWorld
   LANGUAGES CXX
   )
 
-add_executable(hello 
-  src/main.cpp
+add_library(dwdlib 
   src/hello.cpp
   src/mystruct.cpp
   src/animal.cpp
   src/mystring.cpp
   src/fibo.cpp
   )
-target_compile_features(hello PUBLIC cxx_std_20)
+target_compile_features(dwdlib PUBLIC cxx_std_20)
+target_include_directories(dwdlib PUBLIC include)
 
-target_include_directories(hello PUBLIC include)
+add_executable(hello 
+  app/main.cpp
+  )
+target_compile_features(hello PUBLIC cxx_std_20)
+target_link_libraries(hello PUBLIC dwdlib)
+
+enable_testing()
+add_subdirectory(test)
