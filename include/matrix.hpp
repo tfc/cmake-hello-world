@@ -28,7 +28,7 @@ public:
         return const_cast<T &>(const_cast<const Matrix &>(*this)(row, col));
     }
 
-    static std::optional<Matrix> import(std::ifstream &input)
+    static std::optional<Matrix> import(std::istream &input)
     {
         Matrix m;
 
