@@ -1,23 +1,37 @@
+#include <future>
 #include <iostream>
-#include <matrix.hpp>
-#include <fstream>
-#include <sstream>
+#include <thread>
+#include <chrono>
 
 int main()
 {
-    //std::ifstream f {"matrix.txt"};
-    std::istringstream is {"1 2 3 4 5 6 7 8 9"};
-    if (auto om = Matrix<double, 3, 3>::import(is);
-        om) {
-        std::cout << *om << '\n';
-        std::ofstream dumpfile {"dump.txt"};
-        std::ostringstream os;
-        if (om->exporrt(os)) {
-            std::cout << "yes, export hat geklappt\n";
-            std::cout << os.str() << '\n';
-        }
-    } else {
-        std::cout << "das hat nicht geklappt.\n";
-    }
+    auto a1 = std::async([]() {
+        std::cout << "a1 begin\n";
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::cout << "a1 end\n";
+        return 1;
+    });
+
+    auto a2 = std::async([]() {
+        std::cout << "a2 begin\n";
+        std::this_thread::sleep_for(std::chrono::seconds(2));
+        std::cout << "a2 end\n";
+        return 2;
+    });
+
+    auto a3 = std::async([]() {
+        std::cout << "a3 begin\n";
+        std::this_thread::sleep_for(std::chrono::seconds(3));
+        std::cout << "a3 end\n";
+        return 3;
+    });
+
+    auto a4 = std::async([&a1, &a2]() {
+        return a1.get() + a2.get();
+    });
+    
+    auto summe = a3.get() + a4.get();
+
+    std::cout << summe << '\n';
 
 }
